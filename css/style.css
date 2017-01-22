@@ -1,0 +1,20 @@
+nav .nav-wrapper.container {
+  width: 90%;
+}
+
+.row .col {
+    float: left;
+    box-sizing: border-box;
+    /*padding: 0 0.01rem 0 0.75rem;*/
+    min-height: 1px;
+}
+
+.card.waves-effect {
+  width: 100%;
+}
+
+.card img {
+    display: block;
+    margin: auto;
+    margin-top: 1rem;
+}
