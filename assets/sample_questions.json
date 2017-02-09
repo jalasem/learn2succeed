@@ -1,0 +1,421 @@
+[{
+    "question_text": "What is the opposite of <strong>good</strong>?",
+    "options": [{
+        "is_valid": false,
+        "text": "sweet"
+      },
+      {
+        "is_valid": false,
+        "text": "beautiful"
+      },
+      {
+        "is_valid": true,
+        "text": "bad"
+      },
+      {
+        "is_valid": false,
+        "text": "great"
+      }
+    ],
+    "correct": "bad"
+  },
+  {
+    "question_text": "Which of these animals if refered to as an amphibian?",
+    "options": [{
+        "is_valid": false,
+        "text": "Fish"
+      },
+      {
+        "is_valid": false,
+        "text": "Snake"
+      },
+      {
+        "is_valid": true,
+        "text": "Crocodile"
+      },
+      {
+        "is_valid": false,
+        "text": "Lizard"
+      }
+    ],
+    "correct": "Crocodile"
+  },
+  {
+    "question_text": "What is the opposite of <strong>good</strong>?",
+    "options": [{
+        "is_valid": false,
+        "text": "sweet"
+      },
+      {
+        "is_valid": false,
+        "text": "beautiful"
+      },
+      {
+        "is_valid": true,
+        "text": "bad"
+      },
+      {
+        "is_valid": false,
+        "text": "great"
+      }
+    ],
+    "correct": "bad"
+  },
+  {
+    "question_text": "Which of these animals if refered to as an amphibian?",
+    "options": [{
+        "is_valid": false,
+        "text": "Fish"
+      },
+      {
+        "is_valid": false,
+        "text": "Snake"
+      },
+      {
+        "is_valid": true,
+        "text": "Crocodile"
+      },
+      {
+        "is_valid": false,
+        "text": "Lizard"
+      }
+    ],
+    "correct": "Crocodile"
+  },
+  {
+    "question_text": "What is the opposite of <strong>good</strong>?",
+    "options": [{
+        "is_valid": false,
+        "text": "sweet"
+      },
+      {
+        "is_valid": false,
+        "text": "beautiful"
+      },
+      {
+        "is_valid": true,
+        "text": "bad"
+      },
+      {
+        "is_valid": false,
+        "text": "great"
+      }
+    ],
+    "correct": "bad"
+  },
+  {
+    "question_text": "Which of these animals if refered to as an amphibian?",
+    "options": [{
+        "is_valid": false,
+        "text": "Fish"
+      },
+      {
+        "is_valid": false,
+        "text": "Snake"
+      },
+      {
+        "is_valid": true,
+        "text": "Crocodile"
+      },
+      {
+        "is_valid": false,
+        "text": "Lizard"
+      }
+    ],
+    "correct": "Crocodile"
+  },
+  {
+    "question_text": "What is the opposite of <strong>good</strong>?",
+    "options": [{
+        "is_valid": false,
+        "text": "sweet"
+      },
+      {
+        "is_valid": false,
+        "text": "beautiful"
+      },
+      {
+        "is_valid": true,
+        "text": "bad"
+      },
+      {
+        "is_valid": false,
+        "text": "great"
+      }
+    ],
+    "correct": "bad"
+  },
+  {
+    "question_text": "Which of these animals if refered to as an amphibian?",
+    "options": [{
+        "is_valid": false,
+        "text": "Fish"
+      },
+      {
+        "is_valid": false,
+        "text": "Snake"
+      },
+      {
+        "is_valid": true,
+        "text": "Crocodile"
+      },
+      {
+        "is_valid": false,
+        "text": "Lizard"
+      }
+    ],
+    "correct": "Crocodile"
+  },
+  {
+    "question_text": "What is the opposite of <strong>good</strong>?",
+    "options": [{
+        "is_valid": false,
+        "text": "sweet"
+      },
+      {
+        "is_valid": false,
+        "text": "beautiful"
+      },
+      {
+        "is_valid": true,
+        "text": "bad"
+      },
+      {
+        "is_valid": false,
+        "text": "great"
+      }
+    ],
+    "correct": "bad"
+  },
+  {
+    "question_text": "Which of these animals if refered to as an amphibian?",
+    "options": [{
+        "is_valid": false,
+        "text": "Fish"
+      },
+      {
+        "is_valid": false,
+        "text": "Snake"
+      },
+      {
+        "is_valid": true,
+        "text": "Crocodile"
+      },
+      {
+        "is_valid": false,
+        "text": "Lizard"
+      }
+    ],
+    "correct": "Crocodile"
+  },
+  {
+    "question_text": "What is the opposite of <strong>good</strong>?",
+    "options": [{
+        "is_valid": false,
+        "text": "sweet"
+      },
+      {
+        "is_valid": false,
+        "text": "beautiful"
+      },
+      {
+        "is_valid": true,
+        "text": "bad"
+      },
+      {
+        "is_valid": false,
+        "text": "great"
+      }
+    ],
+    "correct": "bad"
+  },
+  {
+    "question_text": "Which of these animals if refered to as an amphibian?",
+    "options": [{
+        "is_valid": false,
+        "text": "Fish"
+      },
+      {
+        "is_valid": false,
+        "text": "Snake"
+      },
+      {
+        "is_valid": true,
+        "text": "Crocodile"
+      },
+      {
+        "is_valid": false,
+        "text": "Lizard"
+      }
+    ],
+    "correct": "Crocodile"
+  },
+  {
+    "question_text": "What is the opposite of <strong>good</strong>?",
+    "options": [{
+        "is_valid": false,
+        "text": "sweet"
+      },
+      {
+        "is_valid": false,
+        "text": "beautiful"
+      },
+      {
+        "is_valid": true,
+        "text": "bad"
+      },
+      {
+        "is_valid": false,
+        "text": "great"
+      }
+    ],
+    "correct": "bad"
+  },
+  {
+    "question_text": "Which of these animals if refered to as an amphibian?",
+    "options": [{
+        "is_valid": false,
+        "text": "Fish"
+      },
+      {
+        "is_valid": false,
+        "text": "Snake"
+      },
+      {
+        "is_valid": true,
+        "text": "Crocodile"
+      },
+      {
+        "is_valid": false,
+        "text": "Lizard"
+      }
+    ],
+    "correct": "Crocodile"
+  },
+  {
+    "question_text": "What is the opposite of <strong>good</strong>?",
+    "options": [{
+        "is_valid": false,
+        "text": "sweet"
+      },
+      {
+        "is_valid": false,
+        "text": "beautiful"
+      },
+      {
+        "is_valid": true,
+        "text": "bad"
+      },
+      {
+        "is_valid": false,
+        "text": "great"
+      }
+    ],
+    "correct": "bad"
+  },
+  {
+    "question_text": "Which of these animals if refered to as an amphibian?",
+    "options": [{
+        "is_valid": false,
+        "text": "Fish"
+      },
+      {
+        "is_valid": false,
+        "text": "Snake"
+      },
+      {
+        "is_valid": true,
+        "text": "Crocodile"
+      },
+      {
+        "is_valid": false,
+        "text": "Lizard"
+      }
+    ],
+    "correct": "Crocodile"
+  },
+  {
+    "question_text": "What is the opposite of <strong>good</strong>?",
+    "options": [{
+        "is_valid": false,
+        "text": "sweet"
+      },
+      {
+        "is_valid": false,
+        "text": "beautiful"
+      },
+      {
+        "is_valid": true,
+        "text": "bad"
+      },
+      {
+        "is_valid": false,
+        "text": "great"
+      }
+    ],
+    "correct": "bad"
+  },
+  {
+    "question_text": "Which of these animals if refered to as an amphibian?",
+    "options": [{
+        "is_valid": false,
+        "text": "Fish"
+      },
+      {
+        "is_valid": false,
+        "text": "Snake"
+      },
+      {
+        "is_valid": true,
+        "text": "Crocodile"
+      },
+      {
+        "is_valid": false,
+        "text": "Lizard"
+      }
+    ],
+    "correct": "Crocodile"
+  },
+  {
+    "question_text": "What is the opposite of <strong>good</strong>?",
+    "options": [{
+        "is_valid": false,
+        "text": "sweet"
+      },
+      {
+        "is_valid": false,
+        "text": "beautiful"
+      },
+      {
+        "is_valid": true,
+        "text": "bad"
+      },
+      {
+        "is_valid": false,
+        "text": "great"
+      }
+    ],
+    "correct": "bad"
+  },
+  {
+    "question_text": "Which of these animals if refered to as an amphibian?",
+    "options": [{
+        "is_valid": false,
+        "text": "Fish"
+      },
+      {
+        "is_valid": false,
+        "text": "Snake"
+      },
+      {
+        "is_valid": true,
+        "text": "Crocodile"
+      },
+      {
+        "is_valid": false,
+        "text": "Lizard"
+      }
+    ],
+    "correct": "Crocodile"
+  }
+]

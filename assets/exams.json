@@ -1,0 +1,32 @@
+[{
+    "name": "JAMB",
+    "logoUrl": "./images/JAMB-Logo.png",
+    "subjects": ["physics", "chemistry", "Biology", "Math", "English", "Geography"],
+    "startDate": 1989,
+    "stopDate": 2016
+
+  },
+  {
+    "name": "WAEC",
+    "logoUrl": "./images/Waec_logo.png",
+    "subjects": ["physics", "chemistry", "Biology", "Math", "English", "Geography"],
+    "startDate": 1988,
+    "stopDate": 2016,
+    "type": "ssce"
+  },
+  {
+    "name": "NECO",
+    "logoUrl": "./images/neco_logo.png",
+    "subjects": ["physics", "chemistry", "Biology", "Math", "English", "Geography"],
+    "startDate": 1989,
+    "stopDate": 2016,
+    "type": "ssce"
+  },
+  {
+    "name": "NABTEB",
+    "logoUrl": "./images/nabteb_logo.jpg",
+    "subjects": ["physics", "chemistry", "Biology", "Math", "English", "Geography"],
+    "startDate": 1999,
+    "stopDate": 2016
+  }
+]
