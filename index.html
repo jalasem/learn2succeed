@@ -16,7 +16,7 @@
       <div class="userView">
         <a id="bhk" href="#!user"><i class="icon ion-person"></i></a>
         <a id="bhl" href="#!name"><span class="blue-grey-text name text-darken-4">John Doe</span></a>
-        <a href="#!" id="bhm"><span class="blue-grey-text text-darken-4">Rank: 0</span></a>
+        <a href="#!" id="bhm"><span class="blue-grey-text text-darken-4">Points: <span class="points">0</span></span></a>
       </div>
     </li>
     <li><a id="go_home" class="waves-effect" href="#!"><i class="icon left ion-ios-home"></i>Home</a></li>
@@ -160,33 +160,33 @@
               <th data-field="price">Points</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
+          <tbody id="Leaderboard_table">
+            <tr class="rank1">
               <td>1</td>
               <td>Ibrahim Issa</td>
               <td>1024</td>
             </tr>
-            <tr>
+            <tr class="rank2">
               <td>2</td>
               <td>John Ayo</td>
               <td>887</td>
             </tr>
-            <tr>
+            <tr class="rank3">
               <td>3</td>
               <td>Chuka Emeka</td>
               <td>800</td>
             </tr>
-            <tr>
+            <tr class="rank4">
               <td>4</td>
               <td>Ibrahim Issa</td>
               <td>788</td>
             </tr>
-            <tr>
+            <tr class="rank5">
               <td>5</td>
               <td>John Ayo</td>
               <td>750</td>
             </tr>
-            <tr>
+            <!--<tr>
               <td>6</td>
               <td>Chuka Emeka</td>
               <td>745</td>
@@ -210,7 +210,7 @@
               <td>10</td>
               <td>John Ayo</td>
               <td>421</td>
-            </tr>
+            </tr>-->
           </tbody>
         </table>
       </div>
@@ -225,7 +225,7 @@
               <h5 class="left" id="examHeading_view">
               </h5>
               <div class="right timer_indicator">
-                <i class="icon ion-ios-stopwatch-outline"></i>
+                <i class="icon ion-ios-stopwatch-outline" style="margin-right: 10px;"></i>
                 <p class="timer_field"><span>00:00:00</span></p>
               </div>
             </div>

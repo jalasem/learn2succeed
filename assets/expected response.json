@@ -1,0 +1,71 @@
+{
+  "exams": {
+    "893njknikbn89nkk": {
+      "name": "WAEC",
+      "logoUrl": "http://learn2succeed.com/public/assets/waec/logo.pg",
+      "subjects": ["physics", "chemistry", "Biology", "Math", "English", "Geography"],
+      "startDate": 1979,
+      "stopDate": 2016,
+      "type": "ssce"
+    },
+    "893njknikbn89n2k": {
+      "name": "NECO",
+      "logoUrl": "http://learn2succeed.com/public/assets/NECO/logo.pg",
+      "subjects": ["physics", "chemistry", "Biology", "Math", "English", "Geography"],
+      "startDate": 1988,
+      "stopDate": 2016
+    },
+    "893njknikbn893kk": {
+      "name": "JAMB",
+      "logoUrl": "http://learn2succeed.com/public/assets/jamb/logo.pg",
+      "subjects": ["physics", "chemistry", "Biology", "Math", "English", "Geography"],
+      "startDate": 1989,
+      "stopDate": 2016
+    },
+    "893njknikb489nkk": {
+      "name": "NABTEB",
+      "logoUrl": "http://learn2succeed.com/public/assets/nabteb/logo.pg",
+      "subjects": ["physics", "chemistry", "Biology", "Math", "English", "Geography"],
+      "startDate": 1999,
+      "stopDate": 2016
+    }
+  },
+  "questions": {
+    "8h9iuhiuhi89h98h": {
+      "question": "Which of these is not an acid",
+      "answers": {
+        "NaCl": true,
+        "H<sub>2</sub>SO<sub>4</sub>": false,
+        "H<sub>3</sub>": false,
+        "HCl": false
+      }
+    },
+    "8h9iuhiu4i89h98h": {
+      "question": "Which of these is not an acid",
+      "answers": {
+        "NaCl": true,
+        "H<sub>2</sub>SO<sub>4</sub>": false,
+        "H<sub>3</sub>": false,
+        "HCl": false
+      }
+    },
+    "8h9iuhi3hi89h98h": {
+      "question": "Which of these is not an acid",
+      "answers": {
+        "NaCl": true,
+        "H<sub>2</sub>SO<sub>4</sub>": false,
+        "H<sub>3</sub>": false,
+        "HCl": false
+      }
+    },
+    "8h9iuhiuhi82h98h": {
+      "question": "Which of these is not an acid",
+      "answers": {
+        "NaCl": true,
+        "H<sub>2</sub>SO<sub>4</sub>": false,
+        "H<sub>3</sub>": false,
+        "HCl": false
+      }
+    }
+  }
+}

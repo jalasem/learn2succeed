@@ -14,6 +14,7 @@ $(document).ready(function () {
     });
     // views swap
     $('#show_leaderboard').click(function () {
+        showLeaderboard();
         $('section.view').addClass('hide');
         $('#leaderboard_view').removeClass('hide');
         $('#leaderboard_view').addClass('fadeInDown');
@@ -164,11 +165,12 @@ var config = {
     storageBucket: "learn2succeed-8017a.appspot.com",
     messagingSenderId: "790540855811"
 };
-if (firebase !== undefined ) {
+
+if (firebase) {
     firebase.initializeApp(config);
-    } else {
-        console.log('there is a network problem! Please reload');
-    }
+} else {
+    console.log('there is a network problem! Please reload');
+}
 
 var auth = firebase.auth(),
     database = firebase.database(),
@@ -182,6 +184,33 @@ var usersRef = rootRef.child('users'),
 
 var login_tries_error_limit = 0,
     currentTimer = null;
+
+//     .on('value', function(snap){
+//     console.log(snap.val());
+// })
+function showLeaderboard(){
+    window.leaderRank = 5;
+    // window.reverseRank = 1;
+    if(window.leaderRank > 0){
+        leaderboardRef
+            .orderByChild("score")
+            .limitToLast(5)
+            .on('value', function (snap) {
+                snap.forEach(function (childSnap) {
+                    var score_detail = childSnap.val();
+                    // var $details_to_show = '<tr>';
+                    var $details_to_show = '';
+                    $details_to_show += '<td>' + window.leaderRank + '</td>';
+                    $details_to_show += '<td>' + score_detail.name + '</td>';
+                    $details_to_show += '<td>' + score_detail.score + '</td>';
+                    // $details_to_show += '</tr>';
+                    $('#Leaderboard_table>tr.rank'+window.leaderRank).html($details_to_show);
+                    window.leaderRank -= 1;
+                    // window.reverseRank +=1;
+                });
+            });
+    }
+}
 
 function do_login() {
     var email = $('#email_login').val();
@@ -338,9 +367,16 @@ auth.onAuthStateChanged(function (user) {
         $('body').removeClass('inactive');
         $('#bhl>span, #fullname_on_profile_view').text(user.displayName);
         window.currentUser_uid = user.uid;
-        usersRef.child(auth.currentUser.uid).child("userPoints").on('value', function(snap){
-            window.userScore = snap.val();
-        })
+        usersRef.child(window.currentUser_uid).on('value', function (snap) {
+            window.userDetails = snap.val();
+            if (userDetails && userDetails.userPoints) {
+                window.userScore = userDetails.userPoints;
+            } else {
+                window.userScore = 0;
+            }
+
+            $('#bhm span.points').text(window.userScore);
+        });
     } else {
         $('#auth_splash').removeClass('hide');
         $('#auth_splash').addClass('fadeIn');
@@ -377,8 +413,8 @@ function startExamnow() {
 }
 
 function pick_a_question() {
-    examTimer(60); //exam time can also be passed in dynamically
-    if (window.remainingQuestions >= 1) {
+    examTimer(1); //exam time can also be passed in dynamically
+    if (window.remainingQuestions > 1) {
         var contextExam = window.selected_exam;
         var contextSubject = window.selected_subject;
         var $questionInView = '<p class="flow-text">' + window.fetched_questions[window.currentQuestionNo].question_text + '</p>';
@@ -412,19 +448,23 @@ function pick_a_question() {
     $('#nextQuestion').click(function () {
         var jjj = 'input[name=group' + window.currentQuestionNo + ']:checked';
         var picked_answer = $(jjj, '#live-question').val();
-        if (picked_answer == window.fetched_questions[window.currentQuestionNo].correct) {
-            window.currentScore += 1;
-            // console.log("correct!!!", "your score:", window.currentScore);
+        if (picked_answer) {
+            if (picked_answer == window.fetched_questions[window.currentQuestionNo].correct) {
+                window.currentScore += 1;
+                // console.log("correct!!!", "your score:", window.currentScore);
+            } else {
+                // console.log("you are wrong dear, your score:", window.currentScore);
+            }
+            window.remainingQuestions -= 1;
+            window.currentQuestionNo += 1;
+            pick_a_question();
         } else {
-            // console.log("you are wrong dear, your score:", window.currentScore);
+            alert("Please answer this question");
         }
-        window.remainingQuestions -= 1;
-        window.currentQuestionNo += 1;
-        pick_a_question();
     });
-    $('#submitExam').click(function(){
-        var sure = confirm("You still have "+ window.remainingQuestions + " unanswered questions! Tap okay to submit and end this session");
-        if(sure){
+    $('#submitExam').click(function () {
+        var sure = confirm("You still have " + window.remainingQuestions + " unanswered questions! Tap okay to submit and end this session");
+        if (sure) {
             // end the exam and print score
             end_exam();
         }
@@ -455,19 +495,22 @@ function checkNonExistence(value) {
 }
 
 function examTimer(durationInHours) {
-    var counter = durationInHours*60*60;
-    var interval = setInterval(function() {
-        counter--;
-        // Display 'counter' wherever you want to display it.
-        $('p.timer_field>span').text(secondsToHms(counter));
-        if(counter < 300){
-            alert("You have less than 5 minutes left. Please hurry up!");
-        }
-        if (counter == 0) {
-            end_exam()
-            clearInterval(interval);
-        }
-    }, 1000);
+    if(!window.timerCalled){
+        window.timerCalled = true;
+        window.counter = durationInHours * 60 * 60;
+        window.counterInterval = setInterval(function () {
+            counter--;
+            // Display 'counter' wherever you want to display it.
+            $('p.timer_field>span').text(secondsToHms(counter));
+            if (counter < 300) {
+                alert("You have less than 5 minutes left. Please hurry up!");
+            }
+            if (counter === 0) {
+                end_exam();
+                clearInterval(window.counterInterval);
+            }
+        }, 1000);
+    }
 
 }
 
@@ -479,22 +522,24 @@ function secondsToHms(d) {
     return ((h > 0 ? h + ":" + (m < 10 ? "0" : "") : "") + m + ":" + (s < 10 ? "0" : "") + s);
 }
 
-function end_exam(){
+function end_exam() {
+    window.timerCalled = false;
     $('#exam_summary_view span.rawScore').text(window.currentScore);
-        $('#exam_summary_view span.total_question').text(window.fetched_questions.length);
-        window.scoredPrecntage = Math.round((window.currentScore/window.fetched_questions.length)*100);
-        $('#exam_summary_view span.final_percentage').text(scoredPrecntage);
-        $('section.view').addClass('hide');
-        $('#exam_summary_view').removeClass('hide');
-        $('#exam_summary_view').addClass('fadeInDown');
-        window.userScore += window.scoredPrecntage;
-        usersRef.child(window.currentUser_uid).update({
-            userPoints : window.userScore
-        }).then(function(){
-            var currentUser_name = $('#bhl>span').text();
-            leaderboardRef.child(window.currentUser_uid).update({
-                name: currentUser_name,
-                score: window.userScore
-            })
+    $('#exam_summary_view span.total_question').text(window.fetched_questions.length);
+    window.scoredPrecntage = Math.round((window.currentScore / window.fetched_questions.length) * 100);
+    $('#exam_summary_view span.final_percentage').text(scoredPrecntage);
+    $('section.view').addClass('hide');
+    $('#exam_summary_view').removeClass('hide');
+    $('#exam_summary_view').addClass('fadeInDown');
+    window.userScore += window.scoredPrecntage;
+    usersRef.child(window.currentUser_uid).update({
+        userPoints: window.userScore
+    }).then(function () {
+        window.currentUser_name = $('#bhl>span').text();
+        leaderboardRef.child(window.currentUser_uid).set({
+            name: window.currentUser_name,
+            score: window.userScore
         });
+    });
+    $('#bhm span.points').text(window.userDetails.userPoints);
 }

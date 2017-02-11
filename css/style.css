@@ -191,3 +191,7 @@ h1.withLogo {
 .shift-top {
   margin-top: 2.5rem;
 }
+
+.timer_field>span {
+  padding-right: 0.8rem;
+}
