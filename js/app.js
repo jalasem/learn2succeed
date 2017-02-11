@@ -23,6 +23,7 @@ $(document).ready(function () {
         $('section.view').addClass('hide');
         $('#home_view').removeClass('hide');
         $('#home_view').addClass('fadeInDown');
+        clearInterval(window.counterInterval);
     });
     $('#show_profile').click(function () {
         $('section.view').addClass('hide');
@@ -524,6 +525,7 @@ function secondsToHms(d) {
 
 function end_exam() {
     window.timerCalled = false;
+    clearInterval(window.counterInterval);
     $('#exam_summary_view span.rawScore').text(window.currentScore);
     $('#exam_summary_view span.total_question').text(window.fetched_questions.length);
     window.scoredPrecntage = Math.round((window.currentScore / window.fetched_questions.length) * 100);
