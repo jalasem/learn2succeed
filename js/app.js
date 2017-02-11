@@ -1,17 +1,12 @@
-$(window).ready(function () {
-    if (firebase === undefined || firebase === null) {
-        console.log('there is a network problem! Please reload');
-    }
-});
 window.currentScore = 0;
 $(document).ready(function () {
     $('select').material_select();
 
     $('.button-collapse').sideNav({
-        menuWidth: 300, // Default is 240
-        edge: 'left', // Choose the horizontal origin
-        closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-        draggable: true // Choose whether you can drag to open on touch screens
+        menuWidth: 300,
+        edge: 'left',
+        closeOnClick: true,
+        draggable: true
     });
     $('#login_header>span, #login_instead').click(function () {
         $('#login_header > span').toggleClass('active');
@@ -23,7 +18,7 @@ $(document).ready(function () {
         $('#leaderboard_view').removeClass('hide');
         $('#leaderboard_view').addClass('fadeInDown');
     });
-    $('#go_home,a.brand-logo').click(function () {
+    $('#go_home,a.brand-logo,#startAgain').click(function () {
         $('section.view').addClass('hide');
         $('#home_view').removeClass('hide');
         $('#home_view').addClass('fadeInDown');
@@ -40,29 +35,29 @@ $(document).ready(function () {
     });
     // exam swap
 
-    $('#nextQuestion').click(function () {
-        $('section.view').addClass('hide');
-        $('#jamb_inProgress_view').removeClass('hide');
-        $('#jamb_inProgress_view').addClass('fadeInDown');
-    });
+    // $('#nextQuestion').click(function () {
+    //     $('section.view').addClass('hide');
+    //     $('#jamb_inProgress_view').removeClass('hide');
+    //     $('#jamb_inProgress_view').addClass('fadeInDown');
+    // });
 
-    $('#startAgain').click(function () {
-        $('section.view').addClass('hide');
-        $('#select_jamb_subject_view').removeClass('hide');
-        $('#select_jamb_subject_view').addClass('fadeInDown');
-    });
+    // $('#startAgain').click(function () {
+    //     $('section.view').addClass('hide');
+    //     $('#select_jamb_subject_view').removeClass('hide');
+    //     $('#select_jamb_subject_view').addClass('fadeInDown');
+    // });
 
-    $('#startJamb').click(function () {
-        $('section.view').addClass('hide');
-        $('#jamb_inProgress_view').removeClass('hide');
-        $('#jamb_inProgress_view').addClass('fadeInDown');
-    });
+    // $('#startJamb').click(function () {
+    //     $('section.view').addClass('hide');
+    //     $('#jamb_inProgress_view').removeClass('hide');
+    //     $('#jamb_inProgress_view').addClass('fadeInDown');
+    // });
 
-    $('#submitExam').click(function () {
-        $('section.view').addClass('hide');
-        $('#exam_summary_view').removeClass('hide');
-        $('#exam_summary_view').addClass('fadeInDown');
-    });
+    // $('#submitExam').click(function () {
+    //     $('section.view').addClass('hide');
+    //     $('#exam_summary_view').removeClass('hide');
+    //     $('#exam_summary_view').addClass('fadeInDown');
+    // });
     // exam swap
 
     // views swap
@@ -169,8 +164,11 @@ var config = {
     storageBucket: "learn2succeed-8017a.appspot.com",
     messagingSenderId: "790540855811"
 };
-
-firebase.initializeApp(config);
+if (firebase !== undefined ) {
+    firebase.initializeApp(config);
+    } else {
+        console.log('there is a network problem! Please reload');
+    }
 
 var auth = firebase.auth(),
     database = firebase.database(),
@@ -179,7 +177,8 @@ var auth = firebase.auth(),
 var usersRef = rootRef.child('users'),
     examsRef = rootRef.child('exams'),
     subjectsRef = rootRef.child('subjects'),
-    scoresRef = rootRef.child('scores');
+    scoresRef = rootRef.child('scores'),
+    leaderboardRef = rootRef.child('leaderboard');
 
 var login_tries_error_limit = 0,
     currentTimer = null;
@@ -338,6 +337,10 @@ auth.onAuthStateChanged(function (user) {
         $('#main_app_body').addClass('fadeIn');
         $('body').removeClass('inactive');
         $('#bhl>span, #fullname_on_profile_view').text(user.displayName);
+        window.currentUser_uid = user.uid;
+        usersRef.child(auth.currentUser.uid).child("userPoints").on('value', function(snap){
+            window.userScore = snap.val();
+        })
     } else {
         $('#auth_splash').removeClass('hide');
         $('#auth_splash').addClass('fadeIn');
@@ -356,99 +359,142 @@ function startExamnow() {
         var $toPaste = thisExam + ' | ' + thisSubject + ' &nbsp;';
         $('#examHeading_view').html($toPaste);
         $('section.view').addClass('hide');
-        $('#jamb_inProgress_view').removeClass('hide');
-        $('#jamb_inProgress_view').addClass('fadeInDown');
+        $('#exam_inProgress_view').removeClass('hide');
+        $('#exam_inProgress_view').addClass('fadeInDown');
 
         // http://learn2succeed.pythonanywhere.com/api/question/EXAM/YEAR/Subject/?format=json
         $.get("./assets/sample_questions.json", function (data, status) {
             if (status == "success") {
-                var no_of_questions = data.length;
-                var taken_questions = [];
-                var currentNumber = pick_a_number(data, taken_questions);
-                taken_questions.push(currentNumber);
-                window.currentQuestion_number = currentNumber;
-                window.currentD = {
-                    no_of_questions: data.length,
-                    taken_questions: taken_questions,
-                    fetched_questions: data
-                };
-                pick_a_question(thisExam, thisSubject, currentNumber, data);
-                $('#nextQuestion').click(function () {
-                    currentNumber = pick_a_number(data, taken_questions);
-                    taken_questions.push(currentNumber);
-                    window.currentQuestion_number = currentNumber;
-                    window.currentD.taken_questions = taken_questions;
-                    console.log('bam!');
-                });
+                window.currentQuestionNo = 1;
+                window.fetched_questions = data;
+                window.remainingQuestions = window.fetched_questions.length;
+                pick_a_question();
             } else {
                 alert("error fetching questions. Contact support");
             }
         });
-
     }
-
 }
 
-function pick_a_number(data, taken_questions) {
-    var newNumber = getRandomInt(1, data.length);
-    if (checkNonExistence(newNumber, taken_questions)) {
-        return newNumber;
+function pick_a_question() {
+    examTimer(60); //exam time can also be passed in dynamically
+    if (window.remainingQuestions >= 1) {
+        var contextExam = window.selected_exam;
+        var contextSubject = window.selected_subject;
+        var $questionInView = '<p class="flow-text">' + window.fetched_questions[window.currentQuestionNo].question_text + '</p>';
+        $questionInView += '<br>';
+        $questionInView += '<div id="live-question_options"';
+        $questionInView += '</div>';
+        $questionInView += '<br>';
+        $questionInView += '<p class="question_actions center">';
+        // $questionInView += '<button class="btn purple disabled waves-effect waves-light">Previous</button>';
+        $questionInView += '<a id="nextQuestion" href="#!" class="nextQuestion btn purple waves-effect waves-light">Next</a>';
+        $questionInView += '<a id="submitExam" href="#!" class="endExam btn purple waves-effect waves-light">End</a>';
+        $questionInView += '</p>';
+
+        $('#live-question').html($questionInView);
+
+        for (var l = 0; l < window.fetched_questions[window.currentQuestionNo].options.length; l++) {
+            $optionToAppend = '<p>';
+            // $optionToAppend += '<p>';
+            $optionToAppend += '<input id="option' + l + '" name="group' + window.currentQuestionNo + '" value="' + window.fetched_questions[window.currentQuestionNo].options[l].text + '" type="radio"  />';
+            $optionToAppend += '<label for="option' + l + '">' + window.fetched_questions[window.currentQuestionNo].options[l].text + '</label>';
+            $optionToAppend += '</p>';
+
+            $('#live-question_options').prepend($optionToAppend);
+        }
+
     } else {
-        pick_a_number(data, taken_questions);
+        // end the exam and print score
+        end_exam();
     }
-}
 
-function pick_a_question(contextExam, contextSubject, num, contextData) {
-    console.log(contextData[num].options);
-    var $questionInView = '<p class="flow-text">' + contextData[num].question_text + '</p>';
-    $questionInView += '<br>';
-    $questionInView += '<div id="live-question_options"';
-    $questionInView += '</div>';
-    $questionInView += '<br>';
-    $questionInView += '<p class="question_actions center">';
-    $questionInView += '<button class="btn purple disabled waves-effect waves-light">Previous</button>';
-    $questionInView += '<a id="nextQuestion" href="#!" class="nextQuestion btn purple waves-effect waves-light">Next</a>';
-    $questionInView += '<a id="submitExam" href="#!" class="endExam btn purple waves-effect waves-light">End</a>';
-    $questionInView += '</p>';
-
-    $('#live-question').html($questionInView);
-
-    for (var l = 0; l < contextData[num].options.length; l++) {
-        console.log();
-        $optionToAppend = '<p>';
-        $optionToAppend += '<p>';
-        $optionToAppend += '<input id="option' + l + '" name="group' + num + '" value="' + contextData[num].options[l].text + '" type="radio"  />';
-        $optionToAppend += '<label for="option' + l + '">' + contextData[num].options[l].text + '</label>';
-        $optionToAppend += '</p>';
-
-        $('#live-question_options').prepend($optionToAppend);
-    }
-    $('.nextQuestion').click(function () {
-        var jjj = 'input[name=group' + window.currentQuestion_number + ']:checked';
+    $('#nextQuestion').click(function () {
+        var jjj = 'input[name=group' + window.currentQuestionNo + ']:checked';
         var picked_answer = $(jjj, '#live-question').val();
-        if (picked_answer == contextData[num].correct) {
+        if (picked_answer == window.fetched_questions[window.currentQuestionNo].correct) {
             window.currentScore += 1;
-            console.log("correct!!!", "your score:", window.currentScore);
-            // var currentNumber = pick_a_number(window.currentD.fetched_questions, window.currentD.taken_questions);
-            // window.currentQuestion_number = currentNumber;
-            // window.currentD. = {
-            //     no_of_questions: no_of_questions,
-            //     taken_questions: taken_questions,
-            //     fetched_questions: data
-            // };
-            // pick_a_question(window.selected_exam, window.selected_subject, currentNumber, window.currentD.fetched_questions);
+            // console.log("correct!!!", "your score:", window.currentScore);
+        } else {
+            // console.log("you are wrong dear, your score:", window.currentScore);
+        }
+        window.remainingQuestions -= 1;
+        window.currentQuestionNo += 1;
+        pick_a_question();
+    });
+    $('#submitExam').click(function(){
+        var sure = confirm("You still have "+ window.remainingQuestions + " unanswered questions! Tap okay to submit and end this session");
+        if(sure){
+            // end the exam and print score
+            end_exam();
         }
     });
+}
+
+function pick_a_number() {
+
+    var newNumber = getRandomInt(1, window.fetched_questions.length);
+    if (checkNonExistence(newNumber)) {
+        window.taken_questions.push(newNumber);
+        return newNumber;
+    } else {
+        pick_a_number();
+    }
 }
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function checkNonExistence(value, arrayName) {
-    if (arrayName.indexOf(value) > -1) {
+function checkNonExistence(value) {
+    if (window.taken_questions.indexOf(value) > -1) {
         return false;
     } else {
         return true;
     }
+}
+
+function examTimer(durationInHours) {
+    var counter = durationInHours*60*60;
+    var interval = setInterval(function() {
+        counter--;
+        // Display 'counter' wherever you want to display it.
+        $('p.timer_field>span').text(secondsToHms(counter));
+        if(counter < 300){
+            alert("You have less than 5 minutes left. Please hurry up!");
+        }
+        if (counter == 0) {
+            end_exam()
+            clearInterval(interval);
+        }
+    }, 1000);
+
+}
+
+function secondsToHms(d) {
+    d = Number(d);
+    var h = Math.floor(d / 3600);
+    var m = Math.floor(d % 3600 / 60);
+    var s = Math.floor(d % 3600 % 60);
+    return ((h > 0 ? h + ":" + (m < 10 ? "0" : "") : "") + m + ":" + (s < 10 ? "0" : "") + s);
+}
+
+function end_exam(){
+    $('#exam_summary_view span.rawScore').text(window.currentScore);
+        $('#exam_summary_view span.total_question').text(window.fetched_questions.length);
+        window.scoredPrecntage = Math.round((window.currentScore/window.fetched_questions.length)*100);
+        $('#exam_summary_view span.final_percentage').text(scoredPrecntage);
+        $('section.view').addClass('hide');
+        $('#exam_summary_view').removeClass('hide');
+        $('#exam_summary_view').addClass('fadeInDown');
+        window.userScore += window.scoredPrecntage;
+        usersRef.child(window.currentUser_uid).update({
+            userPoints : window.userScore
+        }).then(function(){
+            var currentUser_name = $('#bhl>span').text();
+            leaderboardRef.child(window.currentUser_uid).update({
+                name: currentUser_name,
+                score: window.userScore
+            })
+        });
 }
